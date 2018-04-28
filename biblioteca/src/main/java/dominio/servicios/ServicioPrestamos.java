@@ -2,7 +2,6 @@ package dominio.servicios;
 
 import dominio.*;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 public class ServicioPrestamos {
 
@@ -14,18 +13,22 @@ public class ServicioPrestamos {
 		
 		int sumaDigitos = 0;
 		
-		for (int i = 0; i < isbn.length(); i++) {
-			sumaDigitos += Character.getNumericValue(isbn.charAt(i));
+		for (int i = 0; i < digitos.length(); i++) {
+			sumaDigitos += Character.getNumericValue(digitos.charAt(i));
 		}
 		
 		if (sumaDigitos > 30) {
 			Calendar fechaMaxima = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
 			fechaMaxima.setTime(new Date());
 			
-			String fechaMaxString = sdf.format(fechaMaxima.getTime());
+			fechaMaxima.add(Calendar.DATE, 15);
 			
-			d = new Date(fechaMaxString);
+			if (fechaMaxima.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				fechaMaxima.add(Calendar.DATE, 1);
+			}
+			
+			d = fechaMaxima.getTime();
 		}
 		
 		return d;
